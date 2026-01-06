@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Cerita</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome (ICON FIX) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .detail-wrapper {
+            max-width: 1200px;
+            margin: 4rem auto;
+            display: grid;
+            grid-template-columns: 2.5fr 1fr;
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .main-content {
+            padding: 2rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        .sidebar-title {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .story-list-item {
+            display: block;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .story-list-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .detail-img {
+            width: 100%;
+            max-height: 600px;
+            object-fit: contain;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            border: 1px solid var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-color);
+            color: var(--bg-dark);
+        }
+
+        .detail-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            white-space: pre-wrap;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 900px) {
+            .detail-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background -->
+    <div class="bg-container">
+        <div class="stars"></div>
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="detail-wrapper">
+
+        <!-- MAIN -->
+        <div class="main-content glass-panel scroll-reveal">
+            <a href="javascript:history.back()" class="back-btn">← Kembali</a>
+
+            <h1 id="detail-title" class="title" style="font-size:3rem;">Loading...</h1>
+            <p id="detail-date" class="subtitle" style="margin-bottom:2rem;"></p>
+
+            <img id="detail-image" class="detail-img" style="display:none;">
+
+            <div id="detail-text" class="detail-text"></div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar glass-panel scroll-reveal" style="padding:1.5rem;">
+            <h3 class="sidebar-title">Cerita Lainnya</h3>
+            <div id="sidebar-list"></div>
+        </aside>
+
+    </div>
+
+    <!-- MUSIC (OPTIONAL, MANUAL PLAY) -->
+    <!-- MUSIC (OPTIONAL, MANUAL PLAY) -->
+    <div class="music-container">
+        <div class="volume-slider-wrapper" id="volume-wrapper">
+            <input type="range" id="volume-slider" class="vertical-slider" min="0" max="100" value="40">
+        </div>
+
+        <button id="volume-btn" class="volume-toggle-btn">
+            <i class="fas fa-volume-up"></i>
+        </button>
+
+        <button id="music-btn" class="music-btn">
+            <i class="fas fa-play"></i>
+        </button>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="assets/music/bg-music.wav" type="audio/wav">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-love-story-piano-solo-2917.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Scripts -->
+    <script src="data/stories.js"></script>
+
+    <script>
+        /* =====================
+           SCROLL REVEAL
+        ====================== */
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        /* =====================
+           LOAD STORY
+        ====================== */
+        const params = new URLSearchParams(location.search);
+        const id = params.get('id');
+
+        const storiesSorted = (window.stories || []).slice().sort((a, b) =>
+            new Date(a.dateRaw) - new Date(b.dateRaw)
+        );
+
+        const story = storiesSorted.find(s => String(s.id) === id);
+
+        if (!story) {
+            document.getElementById('detail-title').innerText = "Cerita tidak ditemukan";
+        } else {
+            document.title = story.title + " - Kisah Kita";
+            document.getElementById('detail-title').innerText = story.title;
+            document.getElementById('detail-date').innerText = story.date;
+            document.getElementById('detail-text').innerText = story.fullText;
+
+            if (story.image) {
+                const img = document.getElementById('detail-image');
+                img.src = story.image;
+                img.style.display = 'block';
+            }
+        }
+
+        /* =====================
+           SIDEBAR LIST (SORTED)
+        ====================== */
+        const sidebar = document.getElementById('sidebar-list');
+
+        storiesSorted.forEach(s => {
+            if (String(s.id) !== id) {
+                const a = document.createElement('a');
+                a.href = `story.html?id=${s.id}`;
+                a.className = 'story-list-item';
+
+                let imgHTML = '';
+                if (s.image) {
+                    imgHTML = `<img src="${s.image}" style="width:100%; height:120px; object-fit:cover; border-radius:6px; margin-bottom:0.5rem;">`;
+                }
+
+                a.innerHTML = `
+                    ${imgHTML}
+                    <div style="font-weight:600">${s.title}</div>
+                    <div style="font-size:.8rem;opacity:.6">${s.date}</div>
+                `;
+                sidebar.appendChild(a);
+            }
+        });
+
+        /* =====================
+           MUSIC (MANUAL)
+        ====================== */
+        const music = document.getElementById('bg-music');
+        const btn = document.getElementById('music-btn');
+        const volBtn = document.getElementById('volume-btn');
+        const sliderWrap = document.getElementById('volume-wrapper');
+        const slider = document.getElementById('volume-slider');
+
+        music.volume = 0.4;
+
+        btn.onclick = () => {
+            if (music.paused) {
+                music.play();
+                btn.innerHTML = '<i class="fas fa-compact-disc fa-spin"></i>';
+            } else {
+                music.pause();
+                btn.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        };
+
+        volBtn.onclick = () => sliderWrap.classList.toggle('active');
+        slider.oninput = e => music.volume = e.target.value / 100;
+    </script>
+</body>
+
+</html>
