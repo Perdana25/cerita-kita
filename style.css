@@ -126,7 +126,7 @@ body {
 }
 
 .gallery-container.expanded {
-    max-height: 5000px;
+    max-height: none;
 }
 
 /* Fixed Overlay Z-Index */

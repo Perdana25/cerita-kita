@@ -155,14 +155,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const btn = fade.querySelector('.show-more-btn');
         if (!container) return;
 
-        container.classList.toggle('expanded');
+        const isExpanded = container.classList.toggle('expanded');
 
-        if (container.classList.contains('expanded')) {
+        if (isExpanded) {
+            // Set max-height ke scrollHeight agar transisi tetap jalan, lalu ubah ke none
+            container.style.maxHeight = container.scrollHeight + "px";
+            setTimeout(() => {
+                if(container.classList.contains('expanded')) container.style.maxHeight = 'none';
+            }, 800);
+
             fade.style.background = 'transparent';
             btn.innerText = "Tutup Galeri";
             fade.style.position = 'relative';
             fade.style.paddingTop = '2rem';
         } else {
+            // Kembalikan ke 500px untuk menutup
+            container.style.maxHeight = "500px";
             fade.style.background = 'linear-gradient(to bottom, transparent, #050510)';
             btn.innerText = "Lihat Lebih Banyak Foto";
             fade.style.position = 'absolute';
