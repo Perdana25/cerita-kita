@@ -108,8 +108,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* =====================
-       GALLERY LOGIC
+       GALLERY LOGIC (AUTOMATIC)
     ====================== */
+    const galleryGrid = document.getElementById('dynamic-gallery');
+    if (galleryGrid) {
+        const totalPhotos = 200; // Batas maksimal pencarian foto
+        let loadedCount = 0;
+
+        for (let i = 1; i <= totalPhotos; i++) {
+            const imgNum = String(i).padStart(2, '0');
+            const img = new Image();
+            const imgSrc = `assets/${imgNum}.jpg`;
+
+            img.onload = function() {
+                const imgElement = document.createElement('img');
+                imgElement.src = imgSrc;
+                imgElement.className = 'gallery-img scroll-reveal';
+                imgElement.alt = `Foto ${imgNum}`;
+                imgElement.loading = 'lazy';
+                
+                // Lightbox click event
+                imgElement.onclick = function() {
+                    const lightbox = document.getElementById('lightbox');
+                    const lightboxImg = document.getElementById('lightbox-img');
+                    lightboxImg.src = this.src;
+                    lightbox.classList.add('active');
+                };
+
+                galleryGrid.appendChild(imgElement);
+                observer.observe(imgElement);
+                loadedCount++;
+            };
+            
+            img.onerror = function() {
+                // Berhenti mencari jika file tidak ditemukan
+                // (Opsional: bisa dibiarkan lanjut jika ada kemungkinan nomor terlewati)
+            };
+            
+            img.src = imgSrc;
+        }
+    }
+
     window.toggleGallery = function () {
         const container = document.getElementById('gallery-container');
         const fade = document.getElementById('gallery-fade');
