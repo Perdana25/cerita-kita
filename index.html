@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     for (let i = 1; i <= 80; i++) {
         const img = document.createElement("img");
-        img.src = `assets/${i}.jpg`;
+        img.src = `assets/${String(i).padStart(2, '0')}.jpg`;
         img.className = "gallery-img scroll-reveal";
         img.alt = "Foto";
         img.onerror = function () {
