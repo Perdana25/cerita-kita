@@ -34,9 +34,9 @@
         <div class="hero-content">
             <h1 class="title scroll-reveal">Kisah Kita</h1>
             <p class="subtitle scroll-reveal">
-                Dedikasi cinta, perjalanan, dan kenangan yang abadi untuk kita berdua 💌
+                Cerita cinta, perjalanan indah, dan kenangan yang abadi untuk kita berdua 💌
             </p>
-            <a href="#awal-mula" class="primary-btn scroll-reveal">Mulai Perjalanan</a>
+            <a href="#awal-mula" class="primary-btn scroll-reveal">Lihat lebih dalam</a>
 
             <div class="scroll-indicator">
                 <div class="arrow">↓</div>
@@ -53,15 +53,14 @@
             </div>
 
             <div class="story-text-content">
-                <h2>Bagaimana Semua Bermulai</h2>
+                <h2>Tentang kita dan rempah dunia</h2>
                 <p>
-                    Semuanya berawal dari satu tatapan sederhana yang mengubah dunia kita selamanya.
-                    Tidak ada kembang api, tidak ada musik keras, hanya detak jantung yang tiba-tiba seirama.
+                    Ini adalah diary tentang perjalanan indah kita yang harus diabadikan selalu untuk masa depan kita.
+                    Tentang kehidupan yang menjadi berwarna bersamanya.
                     <span id="extra-content" style="display:none;">
                         <br><br>
-                        Dan sejak hari itu, setiap detik terasa lebih berharga. Kita belajar bahwa cinta bukan hanya
-                        tentang menemukan seseorang yang sempurna, tapi melihat ketidaksempurnaan dengan cara yang
-                        sempurna.
+                        Dialah manusia yang paling dicintai dan disayang sepenuh hati, mustahil untuk meninggalkannya
+                        dialah kecantikan abadi yang melebihi bulan yang paling terang dan bintang yang begitu indah.
                     </span>
                 </p>
 
@@ -101,15 +100,7 @@
         <!-- Gallery Wrapper for collapsible height -->
         <div class="gallery-container" id="gallery-container">
             <div class="gallery-grid">
-                <img src="assets/1771083417663.jpg" class="gallery-img scroll-reveal" alt="Foto">
-                <img src="assets/1771083417681.jpg" class="gallery-img scroll-reveal" alt="Foto">
-                <img src="assets/1771083417702.jpg" class="gallery-img scroll-reveal" alt="Foto">
-                <img src="assets/1771083417721.jpg" class="gallery-img scroll-reveal" alt="Foto">
-                <img src="assets/1771083417744.jpg" class="gallery-img scroll-reveal" alt="Foto">
-                <img src="assets/1771083417769.jpg" class="gallery-img scroll-reveal" alt="Foto">
-                <img src="assets/1771083417795.jpg" class="gallery-img scroll-reveal" alt="Foto">
-                <img src="assets/couple.jpg" class="gallery-img scroll-reveal" alt="Foto"
-                    onerror="this.style.display='none'">
+                <div class="gallery-grid" id="gallery-grid"></div>
             </div>
 
             <!-- Fade overlay and button -->
@@ -180,6 +171,24 @@
     <!-- Scripts -->
     <script src="data/stories.js"></script>
     <script src="script.js"></script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const gallery = document.getElementById("gallery-grid");
+
+    for (let i = 1; i <= 80; i++) {
+        const img = document.createElement("img");
+        img.src = `assets/${i}.jpg`;
+        img.className = "gallery-img scroll-reveal";
+        img.alt = "Foto";
+        img.onerror = function () {
+            this.style.display = "none"; // kalau file gak ada, sembunyikan
+        };
+        gallery.appendChild(img);
+    }
+});
+</script>
+
 </body>
 
 </html>
