@@ -13,4 +13,4 @@ Melihat dirimu yang begitu percaya padaku dan mengandalkanku, kamu begitu senang
 indahnya dirimu, senyum mu dan bahagia mu saat itu membuat hariku lebih baik.
         `,
         image: "assets/stories/1.jpg"
-    },
+    }
