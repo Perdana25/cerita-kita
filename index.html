@@ -101,6 +101,19 @@
         <div class="gallery-container" id="gallery-container">
             <div class="gallery-grid">
                 <div class="gallery-grid" id="gallery-grid"></div>
+                <script>
+window.onload = function () {
+  const gallery = document.getElementById("gallery-grid");
+  for (let i = 1; i <= 80; i++) {
+    const img = document.createElement("img");
+    img.src = `assets/${String(i).padStart(2, '0')}.jpg`;
+    img.className = "gallery-img scroll-reveal";
+    img.alt = "Foto";
+    gallery.appendChild(img);
+  }
+};
+</script>
+
             </div>
 
             <!-- Fade overlay and button -->
