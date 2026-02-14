@@ -139,7 +139,7 @@
     </section>
 
     <footer class="footer" style="text-align:center; opacity:.5; padding:2rem;">
-        Kisah Kita © 2026
+        Kisah Kita untuk selamanya.
     </footer>
 
     <!-- Music Controls -->
@@ -173,20 +173,17 @@
     <script src="script.js"></script>
 
     <script>
-document.addEventListener("DOMContentLoaded", function () {
+window.onload = function() {
     const gallery = document.getElementById("gallery-grid");
 
     for (let i = 1; i <= 80; i++) {
         const img = document.createElement("img");
-        img.src = `assets/${String(i).padStart(2, '0')}.jpg`;
-        img.className = "gallery-img scroll-reveal";
-        img.alt = "Foto";
-        img.onerror = function () {
-            this.style.display = "none"; // kalau file gak ada, sembunyikan
-        };
+        img.setAttribute("src", "assets/" + i + ".jpg");
+        img.setAttribute("class", "gallery-img scroll-reveal");
+        img.setAttribute("alt", "Foto");
         gallery.appendChild(img);
     }
-});
+};
 </script>
 
 </body>
